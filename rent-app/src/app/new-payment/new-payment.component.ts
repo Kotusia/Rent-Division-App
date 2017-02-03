@@ -32,7 +32,6 @@ export class NewPaymentComponent {
       "secondInput": this.secondInput,
       "thirdInput": this.thirdInput,
 
-      "password": ["", Validators.required]
     });
   }
   onSubmitModelBased() {
