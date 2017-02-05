@@ -2,7 +2,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
-
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { NewPaymentComponent } from './new-payment.component';
 
 fdescribe('NewPaymentComponent', () => {
@@ -11,9 +11,10 @@ fdescribe('NewPaymentComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NewPaymentComponent ]
+      declarations: [NewPaymentComponent],
+      imports: [ReactiveFormsModule]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -22,18 +23,23 @@ fdescribe('NewPaymentComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).not.toBeTruthy();
+  it('should create the component', () => {
+    expect(component).toBeDefined();
+  });
+
+  it('should create the form group', () => {
+    expect(component.form).toBeDefined();
   });
 
   it('should set the initial value of the 1st input the same as in the totalAmount', () => {
-    component.totalAmount = 10;
-    expect(component.totalAmount).toBe(component.firstInput);
+    (<FormControl>component.form.controls['totalPayment']).setValue(1000);
+    fixture.detectChanges();
+    expect(component.form.value.paymentDivision[0].amount).toBe(1000);
   });
 
   it('should set the initial value of the 1st input the same as in the totalAmount', () => {
-    component.totalAmount = 10;
-    expect(component.totalAmount).toBe(component.firstInput + component.secondInput + component.thirdInput);
+    // component.totalAmount = 10;
+    // expect(component.totalAmount).toBe(component.firstInput + component.secondInput + component.thirdInput);
   });
 
 });

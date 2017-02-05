@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
+import { Component, OnInit } from '@angular/core';
+
+import { FormGroup, FormControl, FormArray, Validators, FormBuilder } from '@angular/forms'
 
 @Component({
   // moduleId: module.id,
@@ -8,35 +9,34 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
   styleUrls: ['./new-payment.component.css']
 })
 
-export class NewPaymentComponent {
-  title = 'New payment';
-
+export class NewPaymentComponent implements OnInit {
   form: FormGroup;
+  submitted: boolean;
 
-  firstName = new FormControl("");
-  surname = new FormControl("");
-  date = new FormControl("");
-  totalAmount = new FormControl("", Validators.required);
-  firstInput = new FormControl(""); 
-  secondInput = new FormControl(""); 
-  thirdInput = new FormControl("");
+  constructor() { }
 
+  ngOnInit() {
+    this.form = new FormGroup({
+      totalPayment: new FormControl('', <any>Validators.required),
 
-  constructor(fb: FormBuilder) {
-    this.form = fb.group({
-      "firstName": this.firstName,
-      "surname": this.surname,
-      "date": this.date,
-      "totalAmount": this.totalAmount,
-      "firstInput": this.firstInput,
-      "secondInput": this.secondInput,
-      "thirdInput": this.thirdInput,
+      paymentDivision: new FormArray([
+        new FormGroup({
+          description: new FormControl('', <any>Validators.required),
+          amount: new FormControl('', <any>Validators.required)
+        })
+      ])
+    });
 
+    (<FormControl>this.form.controls['totalPayment']).valueChanges.subscribe(value => {
+      (<FormControl>(<FormGroup>(<FormArray>this.form.controls['paymentDivision']).controls[0]).controls['amount'])
+        .setValue(this.form.value.totalPayment);
     });
   }
-  onSubmitModelBased() {
-    console.log("model-based form submitted");
-    console.log(this.form);
+
+  submit() {
+    this.submitted = true;
+    console.log("Form submitted !");
+    console.log(this.form.value);
   }
 
 }

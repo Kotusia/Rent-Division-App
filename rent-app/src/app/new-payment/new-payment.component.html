@@ -1,48 +1,29 @@
 <section>
-  <h1>{{title}}</h1>
+  <h1>New payment</h1>
 
-  <form [formGroup]="form" (ngSubmit)="onSubmit">
-    <div style="margin-top:15px">
-<h3>Personal details</h3>
-<div>
-  <label>Name:</label>
-  <input type="text" formControlName="firstName" placeholder="Name" />
-  <label>Surname: </label>
-  <input type="text" formControlName="Surname" placeholder="Surname" />
-  <label>Date: </label>
-  <input type="text" formControlName="Date" placeholder="Date" />
-  <label>Total Amount: </label>
-  <input type="number" formControlName="totalAmount" placeholder="Total Amount" />
-</div>
-</div>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <h3>Personal details</h3>
+    <div class="form-group">
+      <label>Total Amount: </label>
+      <input type="number" formControlName="totalPayment" placeholder="Total Payment" />
+    </div>
 
-<div style="margin-top:40px">
-<h3>Payment details</h3>
-<p>Insert components amounts:</p>
-<div>
-  <label>Payment for: </label>
-  <input/>
-  <label>Amount: </label>
-  <input type="number" formControlName="firstInput" placeholder="Amount" />
-</div>
-<div style="margin-top:15px">
-<label>Payment for: </label>
-<input/>
-<label>Amount: </label>
-<input type="number" formControlName="secondInput" placeholder="Amount" />
-</div>
-<div style="margin-top:15px">
-<label>Payment for: </label>
-<input/>
-<label>Amount: </label>
-<input type="number" formControlName="thirdInput" placeholder="Amount" />
-</div>
-<div class="col-md-10" style="margin-top: 40px">
-<div class="row">
-  <button style="margin-right:80px">Cancel</button>
-<button type="submit" [disabled]="!form.valid">Submit</button>
-</div>
-</div>
-</div>
-</form>
+    <div formArrayName="paymentDivision">
+      <h3>Payment details</h3>
+      <p>Insert components amounts:</p>
+      <div *ngFor="let amount of form.controls.paymentDivision.controls; let i=index">
+        <div [formGroupName]="i">
+          <label>{{i + 1}}. Description: </label>
+          <input type="text" formControlName="description" placeholder="Amount" />
+          <label>Amount: </label>
+          <input type="number" formControlName="amount" placeholder="Amount" />
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <button type="button" class="btn btn-danger">Cancel</button>
+      <button type="submit" class="btn btn-success" [disabled]="!form.valid">Submit</button>
+    </div>
+  </form>
 </section>
