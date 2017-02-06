@@ -32,9 +32,8 @@ fdescribe('NewPaymentComponent', () => {
   });
 
   it('should set the initial value of the 1st input the same as in the totalAmount', () => {
-    (<FormControl>component.form.controls['totalPayment']).setValue(1000);
-    fixture.detectChanges();
-    expect(component.form.value.paymentDivision[0].amount).toBe(1000);
+    component.formFields.totalPayment.setValue(1000);
+    expect(component.formFields.paymentDivision.controls[0].value.amount).toBe(1000);
   });
 
   it('should set the initial value of the 1st input the same as in the totalAmount', () => {
