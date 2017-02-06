@@ -13,23 +13,25 @@ export class NewPaymentComponent implements OnInit {
   form: FormGroup;
   submitted: boolean;
 
-  constructor() { }
-
-  ngOnInit() {
-    this.form = new FormGroup({
-      totalPayment: new FormControl('', <any>Validators.required),
+  formFields = {
+      totalPayment: new FormControl('', Validators.required),
 
       paymentDivision: new FormArray([
         new FormGroup({
-          description: new FormControl('', <any>Validators.required),
+          description: new FormControl('', Validators.required),
           amount: new FormControl('', <any>Validators.required)
         })
-      ])
-    });
+      ]
+  }
 
-    (<FormControl>this.form.controls['totalPayment']).valueChanges.subscribe(value => {
-      (<FormControl>(<FormGroup>(<FormArray>this.form.controls['paymentDivision']).controls[0]).controls['amount'])
-        .setValue(this.form.value.totalPayment);
+  constructor() { }
+
+  ngOnInit() {
+    this.form = new FormGroup(this.formFields);
+
+    this.formFields.totalPayment.valueChanges.subscribe(value => {
+      (this.formFields.paymentDivision['amount'])
+        .setValue(this.formFields.totalPayment);
     });
   }
 
